@@ -11,6 +11,7 @@ env.username = 'ubuntu'
 env.key_filename = '/root/.ssh/id_rsa'
 # '~/.ssh/id_rsa'
 
+
 @task
 def do_pack():
     """Function to generate a .tgz archive"""

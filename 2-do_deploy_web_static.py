@@ -1,16 +1,16 @@
 #!/usr/bin/python3
 """
 Fabric script that generates a .tgz archive from the
-contents of the web_static folder of your AirBnB Clone repo."""
+contents of the web_static folder of your AirBnB Clone repo.
+"""
 import os
 from fabric.api import local, run, put, env
 from datetime import datetime
 
 env.hosts = ['54.237.118.67', '52.91.146.16']
-env.username = 'ubuntu'
+env.user = 'ubuntu'
 env.key_filename = '/root/.ssh/id_rsa'
 # '~/.ssh/id_rsa'
-
 
 def do_pack():
     """Function to generate a .tgz archive"""
@@ -20,26 +20,27 @@ def do_pack():
     # Getting the current time
     time_stamp = datetime.now()
     str_time = time_stamp.strftime("%Y%m%d%H%M%S")
-    archieve_path = f'versions/web_static_{str_time}.tgz'
+    archive_path = f'versions/web_static_{str_time}.tgz'
 
-    result = local(f'tar -cvzf {archieve_path} web_static')
+    # Creating the archive
+    result = local(f'tar -cvzf {archive_path} web_static')
 
+    # Checking if the archive was created successfully
     if result.failed:
         return None
 
-    file_size = os.path.getsize(archieve_path)
-    if os.path.exists(archieve_path):
-        print(f"web_static packed: {archieve_path} -> {file_size}Bytes")
-        return archieve_path
+    # Printing the size of the created archive
+    file_size = os.path.getsize(archive_path)
+    if os.path.exists(archive_path):
+        print(f"web_static packed: {archive_path} -> {file_size}Bytes")
+        return archive_path
     else:
         return None
 
-
 def do_deploy(archive_path):
     """
-    Fabric script (based on the file 1-pack_web_static.py
-    that distributes an archive to your web servers, using
-    the function do_deploy.
+    Fabric script that distributes an archive to your web servers,
+    using the function do_deploy.
     """
     if not os.path.exists(archive_path):
         return False
@@ -53,7 +54,7 @@ def do_deploy(archive_path):
         # Create the directory to uncompress the file
         run(f"mkdir -p /data/web_static/releases/{file_name}")
         path = f"/data/web_static/releases/{file_name}"
-        
+
         # Uncompress the file into the created directory
         run(f"tar -xzf /tmp/{archive_name} -C {path}")
 

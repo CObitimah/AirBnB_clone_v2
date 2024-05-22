@@ -19,8 +19,8 @@ def do_pack():
     local('sudo mkdir -p versions')
 
     # Getting the current time
-    time_now = datetime.now()
-    str_time = time_now.strftime("%Y%m%d%H%M%S")
+    time_stamp = datetime.now()
+    str_time = time_stamp.strftime("%Y%m%d%H%M%S")
 
     local(f'sudo tar -cvzf versions/web_static_{str_time}.tgz web_static')
 

@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from fabric.api import env, local, put, run
 from os.path import exists
 import time

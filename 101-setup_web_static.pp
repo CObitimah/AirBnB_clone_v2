@@ -61,3 +61,7 @@ class web_static {
     require => File['/data/web_static/releases/test'],
   }
 }
+
+# Apply the web_static class
+include web_static
+
